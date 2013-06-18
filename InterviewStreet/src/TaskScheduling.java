@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.TreeSet;
 
 public class TaskScheduling {
 
@@ -19,9 +18,12 @@ public class TaskScheduling {
 			int diff1 = di - obj.di;
 			if (diff1 != 0) {
 				return diff1;
-			} else {
-				return mi - obj.mi;
 			}
+			int i = mi - obj.mi;
+			if (i == 0) {
+				return -1;
+			}
+			return i;
 		}
 
 		public int getDelay() {
@@ -39,7 +41,7 @@ public class TaskScheduling {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		int index = 100000;
 		int max = 100000;
 		int a[] = new int[index];
@@ -52,7 +54,7 @@ public class TaskScheduling {
 		for (int i = 0; i < index; i++) {
 			long stime = System.currentTimeMillis();
 			int abs = Math.abs(r.nextInt(max));
-//			System.out.print(abs + ",");
+			// System.out.print(abs + ",");
 			int idx = Arrays.binarySearch(lst.toArray(new Integer[0]), abs);
 			if (idx < 0) {
 				idx = -(idx + 1);
@@ -66,43 +68,59 @@ public class TaskScheduling {
 			time2 += (System.currentTimeMillis() - stime);
 		}
 		System.out.println("Time1 = " + time1 + "\nTime2 = " + time2);
-//		System.out.println(lst);
-//		System.out.println(lst2);
+		// System.out.println(lst);
+		// System.out.println(lst2);
 	}
 
-	public static void main1(String[] args) {
+	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 
 		int t = in.nextInt();
 
-		TreeSet<DiMi> ts = new TreeSet<DiMi>();
+		List<DiMi> lst = new ArrayList<DiMi>();
 		int arr[] = new int[t];
-		int mixMaxD = 0;
 		for (int i = 0; i < t; i++) {
 			DiMi e = new DiMi();
 			e.di = in.nextInt();
 			e.mi = in.nextInt();
-			ts.add(e);
-			arr[i] = getMinMaxDI(ts);
+			addDiMi(lst, e);
+			arr[i] = getMinMaxDI(lst);
 		}
 
 		for (int i = 0; i < t; i++) {
-			System.out.println(-1 * arr[i]);
+			System.out.println(arr[i]);
 		}
 
 	}
 
-	private static int getMinMaxDI(TreeSet<DiMi> ts) {
+	private static int addDiMi(List<DiMi> lst, DiMi e) {
+		int idx = Arrays.binarySearch(lst.toArray(new DiMi[0]), e);
+		if (idx < 0) {
+			idx = -(idx + 1);
+			lst.add(idx, e);
+			for (int i = idx; i < lst.size(); i++) {
+				DiMi diMi = lst.get(i);
+				if (i == 0) {
+					diMi.stepCompleted = diMi.mi;
+				} else {
+					diMi.stepCompleted = lst.get(i - 1).stepCompleted + diMi.mi;
+				}
+			}
+		} else {
+			System.out.println("error");
+		}
+		return idx;
+	}
+
+	private static int getMinMaxDI(List<DiMi> ts) {
 		Iterator<DiMi> it = ts.iterator();
-		int delay = 0;
 		int maxDelay = 0;
 		while (it.hasNext()) {
 			DiMi next = it.next();
-			int localDelay = next.di - next.mi - delay;
-			if (localDelay < maxDelay) {
+			int localDelay = next.getDelay();
+			if (localDelay > maxDelay) {
 				maxDelay = localDelay;
 			}
-			delay = delay + next.mi;
 		}
 		return maxDelay;
 	}
