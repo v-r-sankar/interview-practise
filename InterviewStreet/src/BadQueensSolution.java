@@ -49,7 +49,7 @@ public class BadQueensSolution {
 					column = column || valid[i][j];
 				}
 				if (!column) {
-					System.out.println("Solution not found for the column");
+					System.out.println("ChessProblem not found for the column");
 //					print(valid);
 				}
 			}
@@ -74,7 +74,7 @@ public class BadQueensSolution {
 			}
 
 			if (!wentToChild) {
-				System.out.println("Solution not found for the column");
+				System.out.println("ChessProblem not found for the column");
 //				print(valid);
 			}
 		}

@@ -15,11 +15,11 @@ class ChessBoardPoint {
 
 }
 
-public class Solution {
+public class ChessProblem {
 
 	public static void main(String[] args) {
 		long starTime = System.currentTimeMillis();
-		Solution solution = new Solution();
+		ChessProblem solution = new ChessProblem();
 		solution.process(0,0);
 	
 		// solution.valid[1][2] = true;

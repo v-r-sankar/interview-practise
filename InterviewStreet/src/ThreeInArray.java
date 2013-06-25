@@ -3,13 +3,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 public class ThreeInArray {
 
@@ -29,7 +24,7 @@ public class ThreeInArray {
 				}
 			}
 			if (intArr != null) {
-				usingMinMaxCountLinear(intArr);
+				usingMinMaxCountLinearNew(intArr);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -40,8 +35,8 @@ public class ThreeInArray {
 	}
 
 	public static void main1(String[] args) {
-		int index = 1000;
-		int max = 500;
+		int index = 10;
+		int max = 50;
 		int a[] = new int[index];
 		Random r = new Random();
 		for (int i = 0; i < index; i++) {
@@ -49,62 +44,58 @@ public class ThreeInArray {
 			// System.out.print(abs + ",");
 			a[i] = abs;
 		}
-		usingMinMaxCountLinear(a);
+		Arrays.toString(a);
+		usingMinMaxCountLinearNew(a);
 	}
 
-	private static void usingMinMaxCountLinear(int[] intArr) {
+	private static void usingMinMaxCountLinearNew(int[] intArr) {
 		if (intArr != null) {
-			TreeMap<Integer, TwoOccurances> lowerMap = new TreeMap<Integer, TwoOccurances>();
-			List<Integer> lowerList = new ArrayList<Integer>();
+			int initialCapacity = intArr.length / 4;
+			List<TwoOccurances> lowerList = new ArrayList<TwoOccurances>(
+					initialCapacity);
 			for (int i = 0; i < intArr.length; i++) {
-				TwoOccurances value = null;// new TwoOccurances();
-				value = lowerMap.get(intArr[i]);
-				if (value == null) {
-					value = new TwoOccurances();
-					lowerMap.put(intArr[i], value);
-					int idx = Arrays.binarySearch(
-							lowerList.toArray(new Integer[0]), intArr[i]);
-					if (idx < 0) {
-						idx = -(idx + 1);
-					}
-					lowerList.add(idx, intArr[i]);
+				TwoOccurances value = new TwoOccurances();
+				value.index = intArr[i];
+				int idx = Arrays.binarySearch(
+						lowerList.toArray(new TwoOccurances[0]), value);
+				if (idx < 0) {
+					idx = -(idx + 1);
 					value.firstOccurance = idx;
+					lowerList.add(idx, value);
 				} else {
-					int idx = Arrays.binarySearch(
-							lowerList.toArray(new Integer[0]), intArr[i]);
+					value = lowerList.get(idx);
 					value.secondOccurance = idx;
 				}
 			}
 
-			TreeMap<Integer, TwoOccurances> higherMap = new TreeMap<Integer, TwoOccurances>();
-			List<Integer> higherList = new ArrayList<Integer>();
+			List<TwoOccurances> higherList = new ArrayList<TwoOccurances>(
+					initialCapacity);
 			for (int i = intArr.length - 1; i > -1; i--) {
-				TwoOccurances value = null;// new TwoOccurances();
-				value = higherMap.get(intArr[i]);
-				if (value == null) {
-					value = new TwoOccurances();
-					higherMap.put(intArr[i], value);
-					int idx = Arrays.binarySearch(
-							higherList.toArray(new Integer[0]), intArr[i]);
-					if (idx < 0) {
-						idx = -(idx + 1);
-					}
-					higherList.add(idx, intArr[i]);
-					value.firstOccurance = higherList.size() - 1 - idx;
+				TwoOccurances value = new TwoOccurances();
+				value.index = intArr[i];
+				int idx = Arrays.binarySearch(
+						higherList.toArray(new TwoOccurances[0]), value);
+				if (idx < 0) {
+					idx = -(idx + 1);
+					value.firstOccurance = higherList.size() - idx;
+					higherList.add(idx, value);
 				} else {
+					value = higherList.get(idx);
 					value.secondOccurance = value.firstOccurance;
-					int idx = Arrays.binarySearch(
-							higherList.toArray(new Integer[0]), intArr[i]);
 					value.firstOccurance = higherList.size() - 1 - idx;
 				}
 			}
 
+//			System.out.println(lowerList);
+//			System.out.println(higherList);
 			long totalCount = 0;
-			for (Map.Entry<Integer, TwoOccurances> entry : lowerMap.entrySet()) {
-				Integer key = entry.getKey();
-				TwoOccurances lowerValue = entry.getValue();
-				TwoOccurances higerValue = higherMap.get(key);
-				if (higerValue != null) {
+			TwoOccurances[] higherArray = higherList
+					.toArray(new TwoOccurances[0]);
+			for (TwoOccurances entry : lowerList) {
+				TwoOccurances lowerValue = entry;
+				int idx = Arrays.binarySearch(higherArray, entry);
+				if (idx > -1) {
+					TwoOccurances higerValue = higherArray[idx];
 					if (lowerValue.firstOccurance != -1
 							&& higerValue.firstOccurance != -1) {
 						totalCount += lowerValue.firstOccurance
@@ -120,4 +111,5 @@ public class ThreeInArray {
 			System.out.println(totalCount);
 		}
 	}
+
 }
