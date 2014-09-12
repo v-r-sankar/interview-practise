@@ -2,31 +2,16 @@ package day1;
 
 import java.util.Arrays;
 
+import model.TreeUtils;
+
 public class MedianOfSortedArrays {
-	private static int findSortedPositionIndex(int[] a, int num) {
-		int start = 0;
-		int end = a.length - 1;
-
-		while (start <= end) {
-			int mid = (start + end) / 2;
-			if (num == a[mid]) {
-				return mid;
-			} else if (num > a[mid]) {
-				start = mid + 1;
-			} else {
-				end = mid - 1;
-			}
-		}
-		return start;
-	}
-
 	private static int getMedianOfTwoSortedArrays(int a[], int b[]) {
 		int leftPointer = 0;
 		int rightPointer = a.length - 1;
 		int median = (a.length + b.length) / 2;
 
 		while (leftPointer <= rightPointer) {
-			int leftPositionSortedIndexInOtherArray = findSortedPositionIndex(
+			int leftPositionSortedIndexInOtherArray = TreeUtils.findSortedPositionIndex(
 					b, a[leftPointer]);
 			int leftPointerPositionInSortedArray = leftPositionSortedIndexInOtherArray
 					+ leftPointer;
@@ -40,7 +25,7 @@ public class MedianOfSortedArrays {
 						- (leftPointerPositionInSortedArray - median)];
 			}
 
-			int rightPositionSortedIndexInOtherArray = findSortedPositionIndex(
+			int rightPositionSortedIndexInOtherArray = TreeUtils.findSortedPositionIndex(
 					b, a[rightPointer]);
 			int rightPointerPositionInSortedArray = rightPositionSortedIndexInOtherArray
 					+ rightPointer;
@@ -76,8 +61,8 @@ public class MedianOfSortedArrays {
 
 	public static void main(String[] args) throws java.lang.Exception {
 
-		int a[] = getRandomSortedArray();
-		int b[] = getRandomSortedArray();
+		int a[] = TreeUtils.getRandomSortedArray(100,5000);
+		int b[] = TreeUtils.getRandomSortedArray(100,5000);
 
 		// a = new int[] { 37, 41, 43, 73, 99 };
 		// b = new int[] { 21, 23, 36, 39, 58 };
@@ -96,17 +81,5 @@ public class MedianOfSortedArrays {
 		Arrays.sort(c);
 		System.out.println(c[c.length / 2] + ", "
 				+ (System.nanoTime() - startTime));
-	}
-
-	private static int[] getRandomSortedArray() {
-		int alen = (int) Math.round(Math.random() * 5000) + 2;
-
-		int a[] = new int[alen];
-		for (int i = 0; i < alen; i++) {
-			a[i] = (int) Math.round(Math.random() * 1000000);
-		}
-		Arrays.sort(a);
-//		 System.out.println(Arrays.toString(a));
-		return a;
 	}
 }
