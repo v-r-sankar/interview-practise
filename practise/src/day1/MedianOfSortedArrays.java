@@ -49,9 +49,11 @@ public class MedianOfSortedArrays {
 				return a[rightPointer];
 			}
 			if (rightPointerPositionInSortedArray <= median) {
-				return b[rightPositionSortedIndexInOtherArray
+				return b[rightPositionSortedIndexInOtherArray - 1
 						+ (median - rightPointerPositionInSortedArray)];
 			}
+			
+			int origLeftPointer = leftPointer;
 
 			int tmp = rightPointer
 					- (rightPointerPositionInSortedArray - median);
@@ -59,6 +61,13 @@ public class MedianOfSortedArrays {
 				leftPointer = tmp;
 			} else {
 				leftPointer++;
+			}
+			
+			tmp = origLeftPointer + (median-leftPointerPositionInSortedArray);
+			if (tmp < rightPointer) {
+				rightPointer = tmp;
+			} else {
+				rightPointer --;
 			}
 			// leftPointer++;
 		}
@@ -76,7 +85,7 @@ public class MedianOfSortedArrays {
 		if (a.length < b.length) {
 			System.out.print(getMedianOfTwoSortedArrays(a, b));
 		} else {
-			System.out.print(getMedianOfTwoSortedArrays(a, b));
+			System.out.print(getMedianOfTwoSortedArrays(b, a));
 		}
 		System.out.println(", " + (System.nanoTime() - startTime));
 
@@ -90,14 +99,14 @@ public class MedianOfSortedArrays {
 	}
 
 	private static int[] getRandomSortedArray() {
-		int alen = (int) Math.round(Math.random() * 50000) + 2;
+		int alen = (int) Math.round(Math.random() * 5000) + 2;
 
 		int a[] = new int[alen];
 		for (int i = 0; i < alen; i++) {
-			a[i] = (int) Math.round(Math.random() * 10000);
+			a[i] = (int) Math.round(Math.random() * 1000000);
 		}
 		Arrays.sort(a);
-		// System.out.println(Arrays.toString(a));
+//		 System.out.println(Arrays.toString(a));
 		return a;
 	}
 }
