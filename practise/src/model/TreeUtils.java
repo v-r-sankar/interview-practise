@@ -36,7 +36,8 @@ public class TreeUtils {
 		BinaryNode right = new BinaryNode(null, null, null, "z");
 		BinaryNode left = new BinaryNode(null, null, null, "x");
 		BinaryNode root = new BinaryNode(null, left, right, "y");
-
+		left.setParent(root);
+		right.setParent(root);
 		return root;
 	}
 
@@ -45,6 +46,8 @@ public class TreeUtils {
 		BinaryNode right = new BinaryNode(null, null, null, "c");
 		BinaryNode left = new BinaryNode(null, null, null, "a");
 		BinaryNode root = new BinaryNode(null, left, right, "b");
+		left.setParent(root);
+		right.setParent(root);
 
 		return root;
 	}
@@ -61,9 +64,12 @@ public class TreeUtils {
 
 	public static BinaryNode buildBinaryTreeabce() {
 
-		BinaryNode root = new BinaryNode(null, buildBinaryTreeabc(),
-				buildBinaryTreexyz(), "e");
-
+		BinaryNode abcTree = buildBinaryTreeabc();
+		BinaryNode xyzTree = buildBinaryTreexyz();
+		BinaryNode root = new BinaryNode(null, abcTree,
+				xyzTree, "e");
+		abcTree.setParent(root);
+		xyzTree.setParent(root);
 		return root;
 	}
 
