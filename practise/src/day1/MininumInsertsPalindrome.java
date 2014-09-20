@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class MininumInsertsPalindrome {
 
 	public static void main(String[] args) {
-		System.out.println(getMinimumInsertionsToMakePalindrome("abcdc"));
+		System.out.println(getMinimumInsertionsToMakePalindrome("abcdcba"));
 	}
 
 	private static int[][] arr;

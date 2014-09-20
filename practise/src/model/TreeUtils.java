@@ -30,7 +30,7 @@ public class TreeUtils {
 
 		return root;
 	}
-	
+
 	public static BinaryNode buildBinaryTreexyz() {
 
 		BinaryNode right = new BinaryNode(null, null, null, "z");
@@ -39,7 +39,7 @@ public class TreeUtils {
 
 		return root;
 	}
-	
+
 	public static BinaryNode buildBinaryTreeabc() {
 
 		BinaryNode right = new BinaryNode(null, null, null, "c");
@@ -52,15 +52,17 @@ public class TreeUtils {
 	public static BinaryNode buildBinaryTreeabcd() {
 
 		BinaryNode right = new BinaryNode(null, null, null, "c");
-		BinaryNode left = new BinaryNode(null, new BinaryNode(null, null, null, "d"), null, "a");
+		BinaryNode left = new BinaryNode(null, new BinaryNode(null, null, null,
+				"d"), null, "a");
 		BinaryNode root = new BinaryNode(null, left, right, "b");
 
 		return root;
 	}
-	
+
 	public static BinaryNode buildBinaryTreeabce() {
 
-		BinaryNode root = new BinaryNode(null, buildBinaryTreeabc(), buildBinaryTreexyz(), "e");
+		BinaryNode root = new BinaryNode(null, buildBinaryTreeabc(),
+				buildBinaryTreexyz(), "e");
 
 		return root;
 	}
@@ -91,16 +93,64 @@ public class TreeUtils {
 		return start;
 	}
 
-	public static int[] getRandomSortedArray(int length, int numRange) {
-			int alen = (int) Math.round(Math.random() * length) + 2;
-	
-			int a[] = new int[alen];
-			for (int i = 0; i < alen; i++) {
-				a[i] = (int) Math.round(Math.random() * numRange);
+	public static int findSortedPositionFirstIndex(int[] a, int num) {
+		int start = 0;
+		int end = a.length - 1;
+
+		while (start <= end) {
+			int mid = (start + end) / 2;
+			if (num == a[mid]) {
+				if (mid == 0) {
+					return 0;
+				}
+				if (a[mid - 1] != num) {
+					return mid;
+				}
+				end = mid - 1;
+			} else if (num > a[mid]) {
+				start = mid + 1;
+			} else {
+				end = mid - 1;
 			}
-			Arrays.sort(a);
-	//		 System.out.println(Arrays.toString(a));
-			return a;
 		}
+		return -1;
+	}
+
+	public static int findSortedPositionLastIndex(int[] a, int num) {
+		int start = 0;
+		int end = a.length - 1;
+
+		while (start <= end) {
+			int mid = (start + end) / 2;
+			if (num == a[mid]) {
+				if (mid == a.length - 1) {
+					return mid;
+				}
+
+				if (a[mid + 1] != num) {
+					return mid;
+				}
+
+				start = mid + 1;
+			} else if (num > a[mid]) {
+				start = mid + 1;
+			} else {
+				end = mid - 1;
+			}
+		}
+		return -1;
+	}
+
+	public static int[] getRandomSortedArray(int length, int numRange) {
+		int alen = (int) Math.round(Math.random() * length) + 2;
+
+		int a[] = new int[alen];
+		for (int i = 0; i < alen; i++) {
+			a[i] = (int) Math.round(Math.random() * numRange);
+		}
+		Arrays.sort(a);
+		// System.out.println(Arrays.toString(a));
+		return a;
+	}
 
 }
