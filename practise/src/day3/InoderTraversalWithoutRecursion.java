@@ -17,6 +17,17 @@ public class InoderTraversalWithoutRecursion {
 			System.out.println(node.getData());
 			node = getInorderPredecessor(node);
 		}
+		
+		System.out.println("---");
+		
+		node = root;
+		while (node.getLeft() != null) {
+			node = node.getLeft();
+		}
+		while (node != null) {
+			System.out.println(node.getData());
+			node = getInorderSuccessor(node);
+		}
 
 	}
 
@@ -45,7 +56,7 @@ public class InoderTraversalWithoutRecursion {
 	public static BinaryNode getInorderSuccessor(BinaryNode node) {
 		if (node.getRight() != null) {
 			BinaryNode tmp = node.getRight();
-			while (tmp != null) {
+			while (tmp.getLeft() != null) {
 				tmp = tmp.getLeft();
 			}
 			return tmp;
@@ -53,10 +64,11 @@ public class InoderTraversalWithoutRecursion {
 			BinaryNode parent = node.getParent();
 
 			while (parent != null) {
-				if (parent.getRight() == node) {
+				if (parent.getLeft() == node) {
 					return parent;
 				}
 				node = parent;
+				parent = parent.getParent();
 			}
 		}
 
