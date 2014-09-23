@@ -10,6 +10,13 @@ public class BinaryTreeBstCheck {
 
 	public static void main(String[] args) {
 		BinaryNode root = TreeUtils.buildBinaryTreeabce();
+		BinaryNode left = TreeUtils.buildBinaryTreeabce();
+		BinaryNode right = TreeUtils.buildBinaryTreeabce();
+		root.setLeft(left);
+		root.setRight(right);
+		left.setParent(root);
+		right.setParent(root);
+		root.print();
 		System.out.println(isBinaryTreeBST(root, new Comparator<BinaryNode>() {
 
 			@Override

@@ -91,5 +91,19 @@ public class BinaryNode {
 	public void setParent(BinaryNode parent) {
 		this.parent = parent;
 	}
+	
+	public void print() {
+        print("", true);
+    }
+
+    private void print(String prefix, boolean isTail) {
+        System.out.println(prefix + (isTail ? "|-- " : "|-- ") + data);
+        if (left != null) {
+            left.print(prefix + (isTail ? "    " : "|   "), false);
+        }
+        if (right != null) {
+            right.print(prefix + (isTail ?"    " : "|   "), true);
+        }
+    }
 
 }
